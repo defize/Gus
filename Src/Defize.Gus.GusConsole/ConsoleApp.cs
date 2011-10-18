@@ -16,7 +16,21 @@
             [Parameter(Aliases = "db", Description = "The name of the database.", Required = true)]
             string database)
         {
+            var configuration = new ApplyTaskConfiguration
+                                    {
+                                        
+                                    };
 
+            var task = new ApplyTask();
+            task.ExecutionEvent += TaskExecutionEventHandler;
+            try
+            {
+                task.Execute(configuration);
+            }
+            finally
+            {
+                task.ExecutionEvent -= TaskExecutionEventHandler;
+            }
         }
 
         [Verb(Aliases = "c", Description = "Create a new SQL script with a unique timestamped name.")]
@@ -36,6 +50,11 @@
         public static void Help(string help)
         {
             Console.WriteLine(help);
+        }
+
+        private static void TaskExecutionEventHandler(object sender, GusTaskExecutionEventArgs e)
+        {
+            
         }
     }
 }

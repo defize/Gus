@@ -32,11 +32,13 @@
                                         RecordOnly = recordOnly
                                     };
 
+            var context = new GusTaskExecutionContext();
+            context.ExecutionEvent += TaskExecutionEventHandler;
             var task = new ApplyTask();
-            task.ExecutionEvent += TaskExecutionEventHandler;
+
             try
             {
-                var success = task.Execute(configuration);
+                var success = task.Execute(configuration, context);
 
                 if (success)
                 {
@@ -49,7 +51,7 @@
             }
             finally
             {
-                task.ExecutionEvent -= TaskExecutionEventHandler;
+                context.ExecutionEvent -= TaskExecutionEventHandler;
             }
         }
 

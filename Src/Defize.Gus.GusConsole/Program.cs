@@ -10,7 +10,9 @@
         {
             var version = Assembly.GetEntryAssembly().GetName().Version;
 
-            Console.WriteLine("Defize Gus SQL Script Runner {0}", version.ToString(3));
+            ConsoleHelper.WriteRule();
+            ConsoleHelper.WriteCentered(string.Format("Defize Gus SQL Script Runner {0}", version.ToString(3)));
+            ConsoleHelper.WriteRule();
             Console.WriteLine();
 
             Parser.Run<ConsoleApp>(args);

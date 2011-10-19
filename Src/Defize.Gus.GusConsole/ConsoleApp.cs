@@ -89,7 +89,7 @@
 
         private static void DisplayExecutionEvent(GusTaskExecutionEventArgs e)
         {
-            Console.WriteLine(e.Message);
+            ConsoleHelper.WriteExecutionEventToConsole(e);
         }
     }
 }

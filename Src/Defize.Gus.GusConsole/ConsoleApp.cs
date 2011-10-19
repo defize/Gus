@@ -18,7 +18,8 @@
         {
             var configuration = new ApplyTaskConfiguration
                                     {
-                                        
+                                        Server = server,
+                                        Database = database
                                     };
 
             var task = new ApplyTask();
@@ -52,9 +53,17 @@
             Console.WriteLine(help);
         }
 
+        [Error]
+        public static void Error(Exception ex)
+        {
+            Console.WriteLine("The horrors.");
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+        }
+
         private static void TaskExecutionEventHandler(object sender, GusTaskExecutionEventArgs e)
         {
-            
+            Console.WriteLine(e.Message);
         }
     }
 }

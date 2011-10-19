@@ -14,19 +14,38 @@
             [Parameter(Aliases = "svr", Description = "The destination server.", Required = true)]
             string server,
             [Parameter(Aliases = "db", Description = "The name of the database.", Required = true)]
-            string database)
+            string database,
+            [Parameter(Aliases = "cd", Description = "Creates the database if missing.", Default = false)]
+            bool createDatabaseIfMissing,
+
+            [Parameter(Aliases = "cms", Description = "Creates the Gus schema if missing.", Default = true)]
+            bool createManagementSchemaIfMissing,
+            [Parameter(Aliases = "ro", Description = "Register scripts without executing.", Default = false)]
+            bool recordOnly)
         {
             var configuration = new ApplyTaskConfiguration
                                     {
                                         Server = server,
-                                        Database = database
+                                        Database = database,
+                                        CreateDatabaseIfMissing = createDatabaseIfMissing,
+                                        CreateManagementSchemaIfMissing = createManagementSchemaIfMissing,
+                                        RecordOnly = recordOnly
                                     };
 
             var task = new ApplyTask();
             task.ExecutionEvent += TaskExecutionEventHandler;
             try
             {
-                task.Execute(configuration);
+                var success = task.Execute(configuration);
+
+                if (success)
+                {
+                    DisplayExecutionEvent(new GusTaskExecutionEventArgs(ExecutionEventType.Success, "Task completed successfully.", 0));
+                }
+                else
+                {
+                    DisplayExecutionEvent(new GusTaskExecutionEventArgs(ExecutionEventType.Error, "Task completed with errors.", 0));
+                }
             }
             finally
             {
@@ -62,6 +81,11 @@
         }
 
         private static void TaskExecutionEventHandler(object sender, GusTaskExecutionEventArgs e)
+        {
+            DisplayExecutionEvent(e);
+        }
+
+        private static void DisplayExecutionEvent(GusTaskExecutionEventArgs e)
         {
             Console.WriteLine(e.Message);
         }

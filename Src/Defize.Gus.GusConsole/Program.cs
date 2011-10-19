@@ -14,8 +14,6 @@
             Console.WriteLine();
 
             Parser.Run<ConsoleApp>(args);
-
-            Console.ReadLine();
         }
     }
 }

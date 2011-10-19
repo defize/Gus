@@ -29,9 +29,13 @@
             var server = new Server(serverConnection);
 
             OnExecutionEvent("Initialising database.");
-            var database = InitializeDatabase(server, configuration.Database, false, false);
+            var database = InitializeDatabase(server, configuration.Database, configuration.CreateDatabaseIfMissing, configuration.CreateDatabaseIfMissing || configuration.CreateManagementSchemaIfMissing);
+            if (database == null)
+            {
+                return false;
+            }
 
-            return false;
+            return true;
         }
 
         private SqlConnection CreateAndOpenConnection(ApplyTaskConfiguration configuration)

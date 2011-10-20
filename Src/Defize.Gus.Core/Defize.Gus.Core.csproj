@@ -63,12 +63,16 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AppliedScript.cs" />
     <Compile Include="ApplyTask.cs" />
     <Compile Include="ApplyTaskConfiguration.cs" />
+    <Compile Include="CryptographicExtensions.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="ExecutionEventType.cs" />
+    <Compile Include="FileSystemHelper.cs" />
     <Compile Include="GusTaskExecutionContext.cs" />
     <Compile Include="GusTaskExecutionEventArgs.cs" />
+    <Compile Include="HashAlgorithmType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

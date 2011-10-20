@@ -7,5 +7,7 @@
         public bool CreateDatabaseIfMissing { get; set; }
         public bool CreateManagementSchemaIfMissing { get; set; }
         public bool RecordOnly { get; set; }
+        public string SourcePath { get; set; }
+        public bool HaltOnError { get; set; }
     }
 }

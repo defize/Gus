@@ -21,7 +21,9 @@
             [Parameter(Aliases = "cms", Description = "Creates the Gus schema if missing.", Default = true)]
             bool createManagementSchemaIfMissing,
             [Parameter(Aliases = "ro", Description = "Register scripts without executing.", Default = false)]
-            bool recordOnly)
+            bool recordOnly,
+            [Parameter(Aliases = "hoe", Description = "Stop processing scripts when there is an error", Default = true)]
+            bool haltOnError)
         {
             var configuration = new ApplyTaskConfiguration
                                     {
@@ -29,7 +31,9 @@
                                         Database = database,
                                         CreateDatabaseIfMissing = createDatabaseIfMissing,
                                         CreateManagementSchemaIfMissing = createManagementSchemaIfMissing,
-                                        RecordOnly = recordOnly
+                                        RecordOnly = recordOnly,
+                                        SourcePath = source,
+                                        HaltOnError = haltOnError
                                     };
 
             var context = new GusTaskExecutionContext();

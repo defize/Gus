@@ -1,6 +1,9 @@
 ﻿namespace Defize.Gus
 {
+    using System.Collections.Generic;
+    using System.Data;
     using System.Data.SqlClient;
+    using System.Linq;
     using Microsoft.SqlServer.Management.Smo;
 
     internal class DatabaseHelper
@@ -66,6 +69,25 @@
             }
 
             return database;
+        }
+
+        public ICollection<AppliedScript> GetPreviouslyAppliedScripts(Database database)
+        {
+            var results = database.ExecuteWithResults("SELECT [Filename], [Hash] FROM [Gus].[GusHistory]");
+            var table = results.Tables[0];
+            var rows = table.Rows;
+
+            return rows.Cast<DataRow>().Select(r => new AppliedScript
+                                                           {
+                                                               Filename = (string)r[HistoryTableFilenameColumnName],
+                                                               Hash = (string)r[HistoryTableHashColumnName]
+                                                           }).ToList();
+        }
+
+        public void RecordScript(Database database, string filename, string hash)
+        {
+            var sql = string.Format(RegisterSqlScript, filename, hash);
+            database.ExecuteNonQuery(sql);
         }
 
         private Database OpenDatabase(Server server, string databaseName, bool createDatabaseIfMissing)

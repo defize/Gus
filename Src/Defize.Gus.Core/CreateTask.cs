@@ -29,7 +29,7 @@
             }
             catch (Exception ex)
             {
-                context.RaiseExecutionEvent(ExecutionEventType.Error, string.Format("Failed to create script file: {0}", ex.Message));
+                context.RaiseExecutionEvent(ExecutionEventType.Error, string.Format("Failed to create script file: {0}" , ex.Message));
                 return false;
             }
 

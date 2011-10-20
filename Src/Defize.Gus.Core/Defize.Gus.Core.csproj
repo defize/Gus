@@ -66,6 +66,8 @@
     <Compile Include="AppliedScript.cs" />
     <Compile Include="ApplyTask.cs" />
     <Compile Include="ApplyTaskConfiguration.cs" />
+    <Compile Include="CreateTask.cs" />
+    <Compile Include="CreateTaskConfiguration.cs" />
     <Compile Include="CryptographicExtensions.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="ExecutionEventType.cs" />

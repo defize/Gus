@@ -60,9 +60,36 @@
         }
 
         [Verb(Aliases = "c", Description = "Create a new SQL script with a unique timestamped name.")]
-        public static void Create()
+        public static void Create(
+            [Parameter(Aliases = "n", Description = "The name of the script to create.", Required = true)]
+            string name)
         {
+            var configuration = new CreateTaskConfiguration
+            {
+                Name = name
+            };
 
+            var context = new GusTaskExecutionContext();
+            context.ExecutionEvent += TaskExecutionEventHandler;
+            var task = new CreateTask();
+
+            try
+            {
+                var success = task.Execute(configuration, context);
+
+                if (success)
+                {
+                    DisplayExecutionEvent(new GusTaskExecutionEventArgs(ExecutionEventType.Success, "Task completed successfully.", 0));
+                }
+                else
+                {
+                    DisplayExecutionEvent(new GusTaskExecutionEventArgs(ExecutionEventType.Error, "Task completed with errors.", 0));
+                }
+            }
+            finally
+            {
+                context.ExecutionEvent -= TaskExecutionEventHandler;
+            }
         }
 
         [Verb(Aliases = "v", Description = "Verify the specified SQL scripts against the specified database.")]

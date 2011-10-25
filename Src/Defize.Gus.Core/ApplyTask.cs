@@ -56,7 +56,7 @@
             var previouslyAppliedScripts = databaseHelper.GetPreviouslyAppliedScripts(database);
             var appliedScriptsLookup = previouslyAppliedScripts.ToDictionary(x => x.Filename, x => x.Hash);
 
-            return scriptFiles.Where(x => !appliedScriptsLookup.ContainsKey(x.Name)).ToList();
+            return scriptFiles.Where(x => !appliedScriptsLookup.ContainsKey(x.Name)).OrderBy(x => x.Name).ToList();
         }
 
         private static bool ApplyScripts(IEnumerable<FileInfo> scriptsToApply, Server server, Database database, DatabaseHelper databaseHelper, FileSystemHelper fileSystemHelper, bool recordOnly, GusTaskExecutionContext context, bool haltOnError)

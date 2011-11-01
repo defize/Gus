@@ -86,6 +86,7 @@
 
         public void RecordScript(Database database, string filename, string hash)
         {
+            filename = filename.Replace("'", "''");
             var sql = string.Format(RegisterSqlScript, filename, hash);
             database.ExecuteNonQuery(sql);
         }

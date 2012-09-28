@@ -59,6 +59,46 @@
             }
         }
 
+        [Verb(Aliases = "s", Description = "List the SQL scripts not yet applied to the specified database.")]
+        public static void Status(
+            [Parameter(Aliases = "src", Description = "The source folder.")]
+            [DirectoryExists]
+            string source,
+            [Parameter(Aliases = "svr", Description = "The destination server.", Required = true)]
+            string server,
+            [Parameter(Aliases = "db", Description = "The name of the database.", Required = true)]
+            string database)
+        {
+            var configuration = new StatusTaskConfiguration
+            {
+                Server = server,
+                Database = database,
+                SourcePath = source
+            };
+
+            var context = new GusTaskExecutionContext();
+            context.ExecutionEvent += TaskExecutionEventHandler;
+            var task = new StatusTask();
+
+            try
+            {
+                var success = task.Execute(configuration, context);
+
+                if (success)
+                {
+                    DisplayExecutionEvent(new GusTaskExecutionEventArgs(ExecutionEventType.Success, "Task completed successfully.", 0));
+                }
+                else
+                {
+                    DisplayExecutionEvent(new GusTaskExecutionEventArgs(ExecutionEventType.Error, "Task completed with errors.", 0));
+                }
+            }
+            finally
+            {
+                context.ExecutionEvent -= TaskExecutionEventHandler;
+            }
+        }
+
         [Verb(Aliases = "c", Description = "Create a new SQL script with a unique timestamped name.")]
         public static void Create(
             [Parameter(Aliases = "n", Description = "The name of the script to create.", Required = true)]

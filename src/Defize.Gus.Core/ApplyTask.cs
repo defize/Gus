@@ -71,6 +71,8 @@
                 server.ConnectionContext.BeginTransaction();
                 try
                 {
+                    context.RaiseExecutionEvent(ExecutionEventType.Default, string.Format("Applying script '{0}'.", script.Name), index);
+
                     var hash = fileSystemHelper.GetFileHash(script);
 
                     if (!recordOnly)
@@ -85,7 +87,7 @@
 
                     server.ConnectionContext.CommitTransaction();
 
-                    context.RaiseExecutionEvent(ExecutionEventType.Default, string.Format("Applied script '{0}'.", script.Name), index);
+                    context.RaiseExecutionEvent(ExecutionEventType.Success, string.Format("Applied script '{0}'.", script.Name), index);
                 }
                 catch (FailedOperationException ex)
                 {
